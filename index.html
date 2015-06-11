@@ -1,0 +1,41 @@
+<!doctype html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <title>wheel of foodtune</title>
+        <script src="src/phaser.js"></script>
+        <script src="src/wheel.js"></script>
+    </head>
+    <body>
+    <script type="text/javascript">
+        window.onload = function() {
+
+            function getSearchParameters() {
+                var prmstr = window.location.search.substr(1);
+                prmstr = decodeURIComponent(prmstr);
+                return prmstr != null && prmstr != "" ? transformToAssocArray(prmstr) : {};
+            }
+
+            function transformToAssocArray( prmstr ) {
+                var params = {};
+                var prmarr = prmstr.split("&");
+                for ( var i = 0; i < prmarr.length; i++) {
+                    var tmparr = prmarr[i].split("=");
+                    params[tmparr[0]] = tmparr[1];
+                }
+                return params;
+            }
+
+            var params = getSearchParameters();
+            if (params.hasOwnProperty('speed')) {
+                var speed = params.speed;
+                delete(params.speed);
+            }
+
+            var wheel = Wheel(params);
+            wheel.setAcceleration(speed);
+            wheel.start();
+        };
+    </script>
+    </body>
+</html>
